@@ -1,0 +1,9 @@
+node_modules/
+.next/
+data/bench.db
+data/bench.db-wal
+data/bench.db-shm
+out/
+.env.local
+*.tsbuildinfo
+next-env.d.ts
