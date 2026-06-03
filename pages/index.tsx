@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { getProductStats, getCategories } from "../lib/api/products";
 import { getUserStats } from "../lib/api/users";
 import { getOrderStats, getRecentOrders, Order } from "../lib/api/orders";
@@ -51,11 +52,12 @@ export default function Dashboard({
   recentOrders,
 }: DashboardProps) {
   return (
-    <html>
-      <head>
+    <>
+      <Head>
         <title>Next.js SSR Benchmark</title>
-      </head>
-      <body>
+      </Head>
+
+      <div className="container">
         <h1>Next.js SSR Benchmark Dashboard</h1>
 
         <div className="section">
@@ -174,56 +176,56 @@ export default function Dashboard({
             </tbody>
           </table>
         </div>
+      </div>
 
-        <style>{`
-          body {
-            font-family: system-ui, sans-serif;
-            margin: 2rem;
-            background: #f5f5f5;
-          }
-          h1 { color: #333; }
-          .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-          }
-          .card {
-            background: white;
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          }
-          .card h3 {
-            margin: 0 0 0.5rem;
-            color: #666;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-          }
-          .card .value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #222;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-          }
-          th, td {
-            padding: 0.5rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-          }
-          th {
-            background: #fafafa;
-            font-weight: 600;
-          }
-          .section { margin: 2rem 0; }
-        `}</style>
-      </body>
-    </html>
+      <style jsx>{`
+        .container {
+          font-family: system-ui, sans-serif;
+          margin: 2rem;
+          background: #f5f5f5;
+        }
+        h1 { color: #333; }
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+          margin: 1rem 0;
+        }
+        .card {
+          background: white;
+          border-radius: 8px;
+          padding: 1rem;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .card h3 {
+          margin: 0 0 0.5rem;
+          color: #666;
+          font-size: 0.875rem;
+          text-transform: uppercase;
+        }
+        .card .value {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: #222;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          background: white;
+          border-radius: 8px;
+          overflow: hidden;
+        }
+        th, td {
+          padding: 0.5rem 1rem;
+          text-align: left;
+          border-bottom: 1px solid #eee;
+        }
+        th {
+          background: #fafafa;
+          font-weight: 600;
+        }
+        .section { margin: 2rem 0; }
+      `}</style>
+    </>
   );
 }
