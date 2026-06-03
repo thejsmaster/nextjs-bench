@@ -49,7 +49,7 @@ server.stderr.on("data", (d) => process.stderr.write(d));
 // Wait for server to be ready
 await new Promise((resolve) => {
   const check = () => {
-    const req = http.get("http://localhost:3456/", (res) => {
+    const req = http.get("http://localhost:3456/ssr-dashboard", (res) => {
       let data = "";
       res.on("data", (chunk) => (data += chunk));
       res.on("end", () => {
@@ -112,7 +112,7 @@ const BENCH_ITERATIONS = 50;
 
 const dashResult = await bench(
   "SSR / (dashboard, 5 SQLite queries)",
-  async () => { await httpGet("http://localhost:3456/"); },
+  async () => { await httpGet("http://localhost:3456/ssr-dashboardssr-dashboard"); },
   BENCH_ITERATIONS,
 );
 
@@ -120,11 +120,11 @@ const concResult = await bench(
   "SSR ×5 concurrent",
   async () => {
     await Promise.all([
-      httpGet("http://localhost:3456/"),
-      httpGet("http://localhost:3456/"),
-      httpGet("http://localhost:3456/"),
-      httpGet("http://localhost:3456/"),
-      httpGet("http://localhost:3456/"),
+      httpGet("http://localhost:3456/ssr-dashboardssr-dashboard"),
+      httpGet("http://localhost:3456/ssr-dashboardssr-dashboard"),
+      httpGet("http://localhost:3456/ssr-dashboardssr-dashboard"),
+      httpGet("http://localhost:3456/ssr-dashboardssr-dashboard"),
+      httpGet("http://localhost:3456/ssr-dashboardssr-dashboard"),
     ]);
   },
   Math.floor(BENCH_ITERATIONS / 2),

@@ -21,10 +21,10 @@ interface ServerInfo {
   memory: string;
 }
 
-function httpGet(port: number): Promise<string> {
+function httpGet(port: number, path: string): Promise<string> {
   return new Promise((resolve, reject) => {
     http
-      .get(`http://localhost:${port}/`, (res) => {
+      .get(`http://localhost:${port}${path}`, (res) => {
         let data = "";
         res.on("data", (chunk) => (data += chunk));
         res.on("end", () => resolve(data));
@@ -73,15 +73,15 @@ export default async function handler(
 
   // Warm DB
   getDb();
-  try { await httpGet(port); } catch {}
+  try { await httpGet(port, "/ssr-dashboard"); } catch {}
 
   const results: BenchResult[] = [];
 
-  // Benchmark 1: SSR dashboard
+  // Benchmark 1: SSR dashboard — hits /ssr-dashboard (5 SQLite queries)
   results.push(
     await bench(
-      "SSR / (dashboard, 5 SQLite queries)",
-      async () => { await httpGet(port); },
+      "SSR /ssr-dashboard (5 SQLite queries)",
+      async () => { await httpGet(port, "/ssr-dashboard"); },
       iterations,
     ),
   );
@@ -114,13 +114,17 @@ export default async function handler(
     );
   }
 
-  // Benchmark 3: SSR x5 concurrent
+  // Benchmark 3: SSR x5 concurrent (all hitting /ssr-dashboard)
   results.push(
     await bench(
       "SSR ×5 concurrent",
       async () => {
         await Promise.all([
-          httpGet(port), httpGet(port), httpGet(port), httpGet(port), httpGet(port),
+          httpGet(port, "/ssr-dashboard"),
+          httpGet(port, "/ssr-dashboard"),
+          httpGet(port, "/ssr-dashboard"),
+          httpGet(port, "/ssr-dashboard"),
+          httpGet(port, "/ssr-dashboard"),
         ]);
       },
       Math.floor(iterations / 2),
